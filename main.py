@@ -49,5 +49,22 @@ def signuptest():
 
     return render_template('signupbootpage/index.html')
 
+@app.route("/newtask", methods=['GET', 'POST', 'PUT'])
+def newtask():
+    if request.method == "POST":
+        username = 'revanth@gmail.com'
+        date = request.form['date']
+        task = request.form['task']
+        print(username, date, task)
+
+        mycursor.execute("SELECT * FROM tasks")
+        cmd = "INSERT INTO `tasks`(`username`,`date`,`task`) VALUES(%s,%s,%s)"
+        val = (username, date, task)
+        res = mycursor.execute(cmd, val)
+        mydb.commit()
+        print(res)
+
+    return render_template('homebootpages/untitled.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
