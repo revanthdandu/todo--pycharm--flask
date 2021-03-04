@@ -1,6 +1,10 @@
 from flask import *
+from flask import request
 import json
 import pymysql as mysql
+
+
+
 
 app = Flask(__name__, static_url_path='',
             static_folder='templates')
@@ -8,7 +12,7 @@ app = Flask(__name__, static_url_path='',
 mydb = mysql.connect(host="localhost", user="root", password="root123", database="login")
 mycursor = mydb.cursor()
 
-
+app.secret_key="abc"
 
 @app.route("/")
 def index():
@@ -27,7 +31,8 @@ def logintest():
         print(logintest)
         if logintest:
             msg = 'Logged in successfully !'
-            return render_template('homebootpages/index.html')
+            session['username']=username
+            return (display())
         else:
             msg = 'Incorrect username / password !'
     return render_template('loginbootpages/index.html',msg=msg)
@@ -52,19 +57,33 @@ def signuptest():
 @app.route("/newtask", methods=['GET', 'POST', 'PUT'])
 def newtask():
     if request.method == "POST":
-        username = 'revanth@gmail.com'
         date = request.form['date']
         task = request.form['task']
-        print(username, date, task)
+        user=session['username']
+        print(user, date, task)
 
         mycursor.execute("SELECT * FROM tasks")
         cmd = "INSERT INTO `tasks`(`username`,`date`,`task`) VALUES(%s,%s,%s)"
-        val = (username, date, task)
+        val = (user, date, task)
         res = mycursor.execute(cmd, val)
         mydb.commit()
         print(res)
 
     return render_template('homebootpages/untitled.html')
+
+@app.route("/display", methods=['GET', 'POST', 'PUT'])
+def display():
+    user = session['username']
+    cmd="select * from `tasks` where `username`=%s"
+    val=(user)
+    mycursor.execute(cmd, val)
+    data = mycursor.fetchall()
+    return render_template("homebootpages/index.html", value=data)
+
+
+@app.route("/logout", methods=['GET', 'POST', 'PUT'])
+def logout():
+    return render_template('loginbootpages/index.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
