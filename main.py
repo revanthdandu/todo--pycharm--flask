@@ -88,7 +88,7 @@ def getid():
     print(item)
     cmd="DELETE FROM tasks WHERE Id=%s"
     val=(item)
-    mycursor.execute(cmd, val)
+    mycursor.execute(cmd,val)
     mydb.commit()
     data = mycursor.fetchall()
     print(data)
