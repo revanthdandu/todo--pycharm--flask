@@ -92,7 +92,9 @@ def getid():
     mydb.commit()
     data = mycursor.fetchall()
     print(data)
-    return redirect(display())
+    return (display())
+
+
 
 @app.route("/logout", methods=['GET', 'POST', 'PUT'])
 def logout():
