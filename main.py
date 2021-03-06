@@ -78,12 +78,25 @@ def display():
     val=(user)
     mycursor.execute(cmd, val)
     data = mycursor.fetchall()
+    # data = dict(data)
+    print(data)
     return render_template("homebootpages/index.html", value=data)
 
+@app.route("/getid", methods=['GET', 'POST'])
+def getid():
+    item=request.args.get("item")
+    print(item)
+    cmd="DELETE FROM tasks WHERE Id=%s"
+    val=(item)
+    mycursor.execute(cmd, val)
+    mydb.commit()
+    data = mycursor.fetchall()
+    print(data)
+    return redirect(display())
 
 @app.route("/logout", methods=['GET', 'POST', 'PUT'])
 def logout():
-    return render_template('loginbootpages/index.html')
+    return (index())
 
 if __name__ == "__main__":
     app.run(debug=True)

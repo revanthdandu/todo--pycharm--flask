@@ -40,7 +40,7 @@
                                 <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button><button class="btn btn-primary" type="button">Save</button></div>
                             </div>
                         </div>
-                    </div><button class="btn btn-outline-primary active text-truncate float-none float-sm-none ml-auto add-another-btn" data-bss-hover-animate="pulse" type="button" style="background: rgb(14,183,81);" >LOGOUT<i class="fas fa-chevron-right edit-icon"></i></button>
+                    </div><button class="btn btn-outline-primary active text-truncate float-none float-sm-none ml-auto add-another-btn" data-bss-hover-animate="pulse" type="button" onclick="window.location.href='{{url_for('logintest')}}'" style="background: rgb(14,183,81);" >LOGOUT<i class="fas fa-chevron-right edit-icon"></i></button>
                 </div>
                 <div>
                     <ul class="nav nav-tabs" role="tablist">
@@ -63,7 +63,12 @@
                             </div>
                             <ul class="thread-list">
                                 {% for i in value %}
-                                <li class="thread"><span class="time">{{i[2]}}</span><span class="title">{{i[3]}}</span><span class="icon"> <a class="subscribe" href="javascript:void(0)"><button class="btn btn-outline-primary text-truncate text-right float-none float-sm-none add-another-btn" data-bss-hover-animate="pulse" type="button" style="background: var(--danger);">DELETE<i class="fas fa-trash edit-icon"></i></button></a><a class="flag" href="javascript:void(0)"></a></span></li>
+                                <li class="thread"><span class="time">{{i[2]}}</span><span class="title">{{i[3]}}</span>
+                                    <span class="icon"> <a class="subscribe">
+                                        <button class="btn btn-outline-primary text-truncate text-right float-none float-sm-none add-another-btn" onclick="window.location.href='{{url_for('getid', item=i[0])}}'" data-bss-hover-animate="pulse" type="button" style="background: var(--danger);">DELETE<i class="fas fa-trash edit-icon"></i></button></a>
+
+                                    </span>
+                                </li>
                                 {% endfor %}
                             </ul>
                         </div>
